@@ -65,7 +65,7 @@ def weather_key_parameters():
         with open('weather_key_parameters.json', 'w', encoding='utf-8') as file:
             json.dump(key_parameters, file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
-        print('Файл не найден')
+        print('Файл "weather_forecast" не найден')
     except Exception as e:
         print(f'Произошла ошибка: {e}')
 
