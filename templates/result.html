@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о маршруте</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-image: url("{{ url_for('static', filename='background2.jpg') }}");
+            background-size: cover; /* Изображение масштабируется на весь экран */
+            background-repeat: no-repeat; /* Изображение не повторяется */
+            background-position: center center; /* Центровка изображения */
+            color: #fff; /* Цвет текста на фоне */
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон формы */
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .result {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .result b {
+            color: #007BFF;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Информация о маршруте</h1>
+        <div class="result">
+            <p><b>Начальная точка:</b> {{ data['start_city'] }}</p>
+            <p><b>Конечная точка:</b> {{ data['end_city'] }}</p>
+            <p><b>Сообщение:</b> {{ data['message'] }}</p>
+        </div>
+        <a href="/">Вернуться на главную страницу</a>
+    </div>
+
+</body>
+</html>
