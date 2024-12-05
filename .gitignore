@@ -1,0 +1,18 @@
+# Python файлы
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Файлы среды
+.env
+
+# Логи
+*.log
+
+# IDE/Редакторы
+.vscode/
+.idea/
+test.py
+weather_forecast.json
+weather_key_parameters.json
