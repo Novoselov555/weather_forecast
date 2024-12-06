@@ -1,59 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о маршруте</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-image: url("{{ url_for('static', filename='background2.jpg') }}");
-            background-size: cover; /* Изображение масштабируется на весь экран */
-            background-repeat: no-repeat; /* Изображение не повторяется */
-            background-position: center center; /* Центровка изображения */
-            color: #fff; /* Цвет текста на фоне */
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон формы */
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #007BFF;
-        }
-        .result {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .result b {
-            color: #007BFF;
-        }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #007BFF;
-            text-decoration: none;
-        }
-    </style>
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
     <div class="container">
-        <h1>Информация о маршруте</h1>
-        <div class="result">
-            <p><b>Начальная точка:</b> {{ data['start_city'] }}</p>
-            <p><b>Конечная точка:</b> {{ data['end_city'] }}</p>
-            <p><b>Сообщение:</b> {{ data['message'] }}</p>
+        <h1>Прогноз погоды</h1>
+
+        <!-- Контейнер для города отправления -->
+        <div class="weather-container">
+            <h2>Погода в городе отправления {{ data['start_city'] }}</h2>
+            <div class="city-weather" id="departure-weather">
+
+                <!-- День в городе отправления -->
+                <div class="weather-day">
+                    <h3>День</h3>
+                    <div class="weather-details">
+                        <p><strong>Температура:</strong> {{ data['start_day_temp'] }}°C</p>
+                        <p><strong>Вероятность дождя:</strong> {{ data['start_day_rain'] }}%</p>
+                        <p><strong>Влажность:</strong> {{ data['start_day_humidity'] }}%</p>
+                        <p><strong>Скорость ветра:</strong> {{ data['start_day_wind'] }} км/ч</p>
+                        <p><strong>Вывод:</strong></p>
+                        <ul id="start-day-list"></ul>
+                    </div>
+                </div>
+
+                <!-- Ночь в городе отправления -->
+                <div class="weather-night">
+                    <h3>Ночь</h3>
+                    <div class="weather-details">
+                        <p><strong>Температура:</strong> {{ data['start_night_temp'] }}°C</p>
+                        <p><strong>Вероятность дождя:</strong> {{ data['start_night_rain'] }}%</p>
+                        <p><strong>Влажность:</strong> {{ data['start_night_humidity'] }}%</p>
+                        <p><strong>Скорость ветра:</strong> {{ data['start_night_wind'] }} км/ч</p>
+                        <p><strong>Вывод:</strong></p>
+                        <ul id="start-night-list"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Контейнер для города прибытия -->
+        <div class="weather-container">
+            <h2>Погода в городе прибытия {{ data['end_city'] }}</h2>
+            <div class="city-weather" id="arrival-weather">
+
+                <!-- День в городе прибытия -->
+                <div class="weather-day">
+                    <h3>День</h3>
+                    <div class="weather-details">
+                        <p><strong>Температура:</strong> {{ data['end_day_temp'] }}°C</p>
+                        <p><strong>Вероятность дождя:</strong> {{ data['end_day_rain'] }}%</p>
+                        <p><strong>Влажность:</strong> {{ data['end_day_humidity'] }}%</p>
+                        <p><strong>Скорость ветра:</strong> {{ data['end_day_wind'] }} км/ч</p>
+                        <p><strong>Вывод:</strong></p>
+                        <ul id="end-day-list"></ul>
+                    </div>
+                </div>
+
+                <!-- Ночь в городе прибытия -->
+                <div class="weather-night">
+                    <h3>Ночь</h3>
+                    <div class="weather-details">
+                        <p><strong>Температура:</strong> {{ data['end_night_temp'] }}°C</p>
+                        <p><strong>Вероятность дождя:</strong> {{ data['end_night_rain'] }}%</p>
+                        <p><strong>Влажность:</strong> {{ data['end_night_humidity'] }}%</p>
+                        <p><strong>Скорость ветра:</strong> {{ data['end_night_wind'] }} км/ч</p>
+                        <p><strong>Вывод:</strong></p>
+                        <ul id="end-night-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <a href="/">Вернуться на главную страницу</a>
     </div>
 
+
+    <script>
+        // Пример данных
+        const data = {
+            'start_day_message': {{ data['start_day_message'] | tojson }},
+            'start_night_message': {{ data['start_night_message'] | tojson }},
+            'end_day_message': {{ data['end_day_message'] | tojson }},
+            'end_night_message': {{ data['end_night_message'] | tojson }}
+        };
+
+        // Функция для заполнения списков
+        function populateList(listId, messages) {
+            const listContainer = document.getElementById(listId);
+            messages.forEach(message => {
+                const listItem = document.createElement("li");
+                listItem.textContent = message;
+                listContainer.appendChild(listItem);
+            });
+
+            // Удаляем последний элемент
+            if (listContainer.lastChild) {
+                listContainer.removeChild(listContainer.lastChild);
+            }
+        }
+
+        // Заполняем списки
+        populateList("start-day-list", data.start_day_message);
+        populateList("start-night-list", data.start_night_message);
+        populateList("end-day-list", data.end_day_message);
+        populateList("end-night-list", data.end_night_message);
+    </script>
 </body>
 </html>

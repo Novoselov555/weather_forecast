@@ -1,3 +1,5 @@
+from ast import Index
+
 import requests
 
 
@@ -16,23 +18,25 @@ class GetCoords:
         if r.status_code == 200:
             return r.json()['response']
         elif r.status_code == 403:
-            raise Exception('Такого адреса|координат не существует')
+            print('Такого адреса|координат не существует')
         else:
-            raise Exception('Что-то пошло не так, но не из-за адреса')
+            print('Что-то пошло не так, но не из-за адреса')
 
     def get_coords_by_address(self, address: str):
         coords = self.send_request(address)['GeoObjectCollection']['featureMember']
 
         # Если ответ пустой, то «поднимаем» ошибку
         if not coords:
-            raise Exception('Пустой ответ')
+            print('Пустой ответ')
+        try:
+            coords = coords[0]['GeoObject']['Point']['pos']
+            lon, lat = coords.split(' ')
+            return float(lon), float(lat)
+        except IndexError:
+            return
 
-        coords = coords[0]['GeoObject']['Point']['pos']
-        lon, lat = coords.split(' ')
-        return float(lon), float(lat)
-
-
-api_key = '5cbf1bfd-9264-477c-b05c-2af092e99e54'
-example = GetCoords(api_key)
-address = 'Гашека 7'
-print(example.get_coords_by_address(address))
+#
+# api_key = '5cbf1bfd-9264-477c-b05c-2af092e99e54'
+# example = GetCoords(api_key)
+# address = 'Гашека 7'
+# print(example.get_coords_by_address(address))

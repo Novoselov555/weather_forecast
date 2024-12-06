@@ -1,65 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Маршрут</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-image: url("{{ url_for('static', filename='background1.jpg') }}");
-            background-size: cover; /* Изображение масштабируется на весь экран */
-            background-repeat: no-repeat; /* Изображение не повторяется */
-            background-position: center center; /* Центровка изображения */
-            color: #fff; /* Цвет текста на фоне */
-        }
-        form {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон формы */
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0 20px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Введите города</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
-    <h1>Введите маршрут</h1>
-    <form action="/result" method="POST">
-        <label for="start">Начальная точка:</label>
-        <input type="text" id="start" name="start" placeholder="Введите город начальной точки" required>
+    <div class="container">
+        <h1>Введите города для получения прогноза погоды</h1>
 
-        <label for="end">Конечная точка:</label>
-        <input type="text" id="end" name="end" placeholder="Введите город конечной точки" required>
+        <!-- Форма для ввода городов -->
+        <form action="/result" method="POST" id="city-form">
+            <div class="form-group">
+                <label for="departure-city">Город отправления:</label>
+                <input type="text" id="departure-city" name="start" placeholder="Введите город отправления" required>
+            </div>
+            <div class="form-group">
+                <label for="arrival-city">Город прибытия:</label>
+                <input type="text" id="arrival-city" name="end" placeholder="Введите город прибытия" required>
+            </div>
+            <button type="submit">Получить прогноз</button>
+        </form>
+    </div>
 
-        <button type="submit">Отправить</button>
-    </form>
 </body>
 </html>
